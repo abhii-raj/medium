@@ -18,8 +18,13 @@ const Auth = ({type} : {type : "signup" | "signin"}) => {
             const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signin"?"signin":"signup"}`, postInputs);
 
             const { jwt , token } = response.data;
-            const tokes = type === "signup"?jwt:token;
-            localStorage.setItem("token" , "Bearer " + tokes);
+            if(!jwt){
+                localStorage.setItem("token" , "Bearer " + token);
+            } else if(!token){
+                localStorage.setItem("token" , "Bearer " + token);
+            }else{
+                localStorage.setItem('token' , "man idk");
+            }
             navigate('/blog');
             
         }catch(e ){
